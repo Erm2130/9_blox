@@ -7,13 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Prompt', sans-serif; background-color: #f8fafc; }
         
-        body {
-            font-family: 'Prompt', sans-serif;
-            background-color: #f8fafc;
-        }
-        
-        /* สไตล์สำหรับ 9-Box */
         .grid-9box {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -22,74 +17,47 @@
             background: #cbd5e1;
             border: 2px solid #cbd5e1;
             border-radius: 12px;
-            aspect-ratio: 21 / 9; /* ปรับสัดส่วนให้แบนลงนิดนึงจะได้ดูสวยเมื่ออยู่คู่กับตารางด้านล่าง */
+            aspect-ratio: 21 / 9; 
             overflow: hidden;
         }
-        
-        .box {
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        
-        .box span { 
-            font-size: 14px; 
-            font-weight: 500; 
-            line-height: 1.4;
-        }
+        .box { padding: 16px; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .box span { font-size: 14px; font-weight: 500; line-height: 1.4; }
 
-        /* โทนสี 9 ช่อง */
-        .b-tl { background: #F3E8FF; color: #6B21A8; } /* เพชรในตม */
-        .b-tm { background: #D1FAE5; color: #065F46; } /* ดาวรุ่ง */
-        .b-tr { background: #DCFCE7; color: #166534; } /* ดาวเด่น */
-        .b-ml { background: #FFEDD5; color: #9A3412; } /* ต้องพัฒนา */
-        .b-mm { background: #FEF9C3; color: #854D0E; } /* กำลังสำคัญ */
-        .b-mr { background: #DBEAFE; color: #1E40AF; } /* ผู้เชี่ยวชาญ */
-        .b-bl { background: #FEE2E2; color: #991B1B; } /* เฝ้าระวัง */
-        .b-bm { background: #F3F4F6; color: #4B5563; } /* มาตรฐาน */
-        .b-br { background: #E2E8F0; color: #334155; } /* เสาหลัก */
+        .b-tl { background: #F3E8FF; color: #6B21A8; } 
+        .b-tm { background: #D1FAE5; color: #065F46; } 
+        .b-tr { background: #DCFCE7; color: #166534; } 
+        .b-ml { background: #FFEDD5; color: #9A3412; } 
+        .b-mm { background: #FEF9C3; color: #854D0E; } 
+        .b-mr { background: #DBEAFE; color: #1E40AF; } 
+        .b-bl { background: #FEE2E2; color: #991B1B; } 
+        .b-bm { background: #F3F4F6; color: #4B5563; } 
+        .b-br { background: #E2E8F0; color: #334155; } 
     </style>
 </head>
 <body class="p-4 md:p-8">
 
 <div class="max-w-6xl mx-auto space-y-8">
-
-    <!-- ==========================================
-         ส่วนที่ 1: ตาราง 9-Box Matrix (ป้ายบอกสถานะ) 
-         ========================================== -->
+    <!-- ส่วนที่ 1: ตาราง 9-Box Matrix -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
         <div class="text-center mb-6">
             <h2 class="text-2xl font-bold text-gray-800">สรุปการประเมิน 9-Box Matrix</h2>
             <p class="text-gray-500 text-sm mt-1">แกนนอน: ผลงาน (Performance) | แกนตั้ง: ศักยภาพ (Potential)</p>
         </div>
-
         <div class="grid-9box mx-auto max-w-4xl">
-            <!-- แถวบน -->
             <div class="box b-tl"><span>เพชรในตม<br>(Rough Diamonds)</span></div>
             <div class="box b-tm"><span>ดาวรุ่ง<br>(Rising Stars)</span></div>
             <div class="box b-tr"><span>ดาวเด่น<br>(Stars)</span></div>
-            
-            <!-- แถวกลาง -->
             <div class="box b-ml"><span>ต้องพัฒนา<br>(Inconsistent)</span></div>
             <div class="box b-mm"><span>กำลังสำคัญ<br>(Core Players)</span></div>
             <div class="box b-mr"><span>ผู้เชี่ยวชาญ<br>(Strong Contrib.)</span></div>
-            
-            <!-- แถวล่าง -->
             <div class="box b-bl"><span>เฝ้าระวัง<br>(Underperformers)</span></div>
             <div class="box b-bm"><span>มาตรฐาน<br>(Effective)</span></div>
             <div class="box b-br"><span>เสาหลัก<br>(Workhorses)</span></div>
         </div>
     </div>
 
-
-    <!-- ==========================================
-         ส่วนที่ 2: Skills Matrix (ตารางจุดสีทักษะ) 
-         ========================================== -->
+    <!-- ส่วนที่ 2: Skills Matrix -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
-        
-        <!-- หัวตาราง -->
         <div class="flex border-b-4 border-blue-600 pb-3 mb-0">
             <div class="w-1/4 font-bold text-gray-800 text-lg flex items-center justify-center border-r-2 border-gray-200">
                 SKILLS MATRIX
@@ -98,8 +66,6 @@
                 SKILLS (ทักษะ)
             </div>
         </div>
-
-        <!-- ตัวตาราง -->
         <div class="overflow-x-auto">
             <table class="w-full text-center border-collapse table-fixed min-w-[800px]">
                 <thead>
@@ -114,7 +80,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- พนักงานคนที่ 1 -->
                     <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                         <td class="py-3 px-6 text-left text-sm text-gray-800 border-r border-gray-200 font-medium bg-gray-50/30">สมหมาย สู้สู้</td>
                         <td class="border-r border-gray-100"><div class="w-5 h-5 mx-auto rounded-full bg-blue-500 shadow-sm"></div></td>
@@ -124,8 +89,6 @@
                         <td class="border-r border-gray-100"><div class="w-5 h-5 mx-auto rounded-full bg-yellow-400 shadow-sm"></div></td>
                         <td><div class="w-5 h-5 mx-auto rounded-full bg-red-400 shadow-sm"></div></td>
                     </tr>
-                    
-                    <!-- พนักงานคนที่ 2 -->
                     <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                         <td class="py-3 px-6 text-left text-sm text-gray-800 border-r border-gray-200 font-medium bg-gray-50/30">สุชัย สู้ๆ</td>
                         <td class="border-r border-gray-100"><div class="w-5 h-5 mx-auto rounded-full bg-green-400 shadow-sm"></div></td>
@@ -138,8 +101,6 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- แถบอธิบายความหมายสี (Legend) -->
         <div class="mt-8 pt-5 border-t border-gray-200 flex flex-wrap justify-center gap-6 md:gap-8 text-sm text-gray-600 font-medium">
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-blue-500"></div> ดีเยี่ยม (Expert)</div>
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-teal-400"></div> ดีมาก (High Competence)</div>
@@ -147,9 +108,7 @@
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-yellow-400"></div> ต้องพัฒนา (Low Competence)</div>
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-red-400"></div> ยังทำไม่ได้ (No Competence)</div>
         </div>
-        
     </div>
-
 </div>
 
 </body>
