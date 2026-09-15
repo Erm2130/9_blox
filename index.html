@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9-Box Matrix Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+        }
+        .box-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid #eaeaea;
+        }
+        .header-title { text-align: center; margin-bottom: 24px; }
+        .header-title h2 { margin: 0; font-size: 24px; color: #1e293b; font-weight: 600; }
+        .header-title p { margin: 6px 0 0 0; color: #64748b; font-size: 14px; }
+        
+        .grid-9box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 2px;
+            background: #cbd5e1;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            position: relative;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+        }
+        
+        .box {
+            padding: 16px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .box span { font-size: 13px; font-weight: 500; }
+
+        /* โทนสี 9 ช่อง */
+        .b-tl { background: #F3E8FF; color: #6B21A8; } /* เพชรในตม */
+        .b-tm { background: #D1FAE5; color: #065F46; } /* ดาวรุ่ง */
+        .b-tr { background: #DCFCE7; color: #166534; } /* ดาวเด่น */
+        .b-ml { background: #FFEDD5; color: #9A3412; } /* ต้องพัฒนา */
+        .b-mm { background: #FEF9C3; color: #854D0E; } /* กำลังสำคัญ */
+        .b-mr { background: #DBEAFE; color: #1E40AF; } /* ผู้เชี่ยวชาญ */
+        .b-bl { background: #FEE2E2; color: #991B1B; } /* เฝ้าระวัง */
+        .b-bm { background: #F3F4F6; color: #4B5563; } /* มาตรฐาน */
+        .b-br { background: #E2E8F0; color: #334155; } /* เสาหลัก */
+
+        .plot-area {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+        }
+        
+        .dot-wrapper {
+            position: absolute;
+            transform: translate(-50%, 50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .dot {
+            width: 14px;
+            height: 14px;
+            background-color: #2563EB;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .dot-label {
+            margin-top: 4px;
+            padding: 3px 8px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #1e293b;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box-container">
+    <div class="header-title">
+        <h2>สรุปการประเมิน 9-Box Matrix</h2>
+        <p>แกนนอน: ผลงาน (Performance, 1-5) | แกนตั้ง: ศักยภาพ (Potential, 1-5)</p>
+    </div>
+
+    <div class="grid-9box" id="grid-9box">
+        <!-- แถวบน (Y > 3.5) -->
+        <div class="box b-tl"><span>เพชรในตม<br>(Rough Diamonds)</span></div>
+        <div class="box b-tm"><span>ดาวรุ่ง<br>(Rising Stars)</span></div>
+        <div class="box b-tr"><span>ดาวเด่น<br>(Stars)</span></div>
+        
+        <!-- แถวกลาง (Y 2.5 - 3.5) -->
+        <div class="box b-ml"><span>ต้องพัฒนา<br>(Inconsistent)</span></div>
+        <div class="box b-mm"><span>กำลังสำคัญ<br>(Core Players)</span></div>
+        <div class="box b-mr"><span>ผู้เชี่ยวชาญ<br>(Strong Contrib.)</span></div>
+        
+        <!-- แถวล่าง (Y < 2.5) -->
+        <div class="box b-bl"><span>เฝ้าระวัง<br>(Underperformers)</span></div>
+        <div class="box b-bm"><span>มาตรฐาน<br>(Effective)</span></div>
+        <div class="box b-br"><span>เสาหลัก<br>(Workhorses)</span></div>
+
+        <!-- พื้นที่พล็อตจุดพนักงาน -->
+        <div class="plot-area" id="plot-area">
+            <div id="loading-text" class="loading" style="position: absolute; width: 100%; top: 40%;">กำลังโหลดข้อมูลจาก Google Sheets...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // URL ของ Google Apps Script Web App ที่เรา Deploy ไว้
+    const API_URL = "https://script.google.com/macros/s/AKfycbzwWFEI6v1_eWmrqvNMMrfTSxecQS7bdBexh5ArjfdG2bkzn_GkyjPrbjMsKa5V1KaD/exec";
+
+    async function loadEmployeeData() {
+        try {
+            const response = await fetch(API_URL);
+            const employees = await response.json();
+            
+            const plotArea = document.getElementById('plot-area');
+            document.getElementById('loading-text').style.display = 'none'; // ซ่อนข้อความโหลด
+
+            employees.forEach(emp => {
+                // ป้องกันกรณีข้อมูลพนักงานบางคนไม่มีคะแนน
+                if (!emp.performance || !emp.potential) return;
+
+                // แปลงสเกลคะแนน 1-5 เป็นตำแหน่งเปอร์เซ็นต์ (0% - 100%) บน CSS Grid
+                const leftPercent = ((emp.performance - 1) / 4) * 100;
+                const bottomPercent = ((emp.potential - 1) / 4) * 100;
+
+                const dotMarkup = `
+                    <div class="dot-wrapper" style="left: ${leftPercent}%; bottom: ${bottomPercent}%;">
+                        <div class="dot" title="${emp.name} (X: ${emp.performance}, Y: ${emp.potential})"></div>
+                        <div class="dot-label">${emp.name}</div>
+                    </div>
+                `;
+                plotArea.innerHTML += dotMarkup;
+            });
+        } catch (error) {
+            console.error("Error loading data:", error);
+            document.getElementById('loading-text').innerText = "ไม่สามารถโหลดข้อมูลได้ กรุณาตรวจสอบสิทธิ์ของ Web App";
+        }
+    }
+
+    // เรียกใช้งานฟังก์ชันดึงข้อมูลทันทีที่เปิดเว็บ
+    loadEmployeeData();
+</script>
+
+</body>
+</html>
