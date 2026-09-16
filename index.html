@@ -140,31 +140,32 @@
                 SKILLS MATRIX (คลิกที่ชื่อพนักงานเพื่อดูจุดบนกราฟ)
             </div>
         </div>
-        <div class="overflow-x-auto">
-            <!-- 🔴 ปรับขยาย min-w จาก 1200px เป็น 1300px เพื่อไม่ให้คอลัมน์อื่นโดนบีบ -->
-            <table class="w-full text-center border-collapse table-fixed min-w-[1300px]">
+        <!-- ลบ min-w-1300px ออก และให้ความกว้าง 100% -->
+        <div class="overflow-x-auto overflow-y-hidden">
+            <table class="w-full text-center border-collapse">
                 <thead>
                     <tr class="text-sm text-gray-700 bg-gray-100 border-b border-gray-200">
-                        <!-- 🔴 ปรับความกว้างคอลัมน์ชื่อจาก 150px เป็น 250px -->
-                        <th rowspan="2" class="py-3 px-2 font-bold border-r border-gray-300 text-left pl-6 min-w-[250px] w-[250px]">ชื่อพนักงาน</th>
-                        <th colspan="9" class="py-2 px-2 font-bold border-r border-gray-300 text-center bg-blue-50 text-blue-800">ผลงาน (Performance)</th>
-                        <th colspan="5" class="py-2 px-2 font-bold text-center bg-purple-50 text-purple-800">ศักยภาพ (Potential)</th>
+                        <!-- กำหนดความกว้างคอลัมน์ชื่อพนักงานที่ประมาณ 22% ของตาราง จะกว้างพอดีและไม่เบียดคอลัมน์อื่น -->
+                        <th rowspan="2" class="py-3 px-4 font-bold border-r border-gray-300 text-left w-[22%]">ชื่อพนักงาน</th>
+                        <th colspan="9" class="py-2 px-1 font-bold border-r border-gray-300 text-center bg-blue-50 text-blue-800">ผลงาน (Performance)</th>
+                        <th colspan="5" class="py-2 px-1 font-bold text-center bg-purple-50 text-purple-800">ศักยภาพ (Potential)</th>
                     </tr>
-                    <tr class="text-xs text-gray-600 bg-gray-50 border-b-2 border-gray-300 whitespace-nowrap">
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ระเบียบวินัยและความตรงต่อเวลา">ระเบียบวินัย</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="บุคลิกภาพและความปลอดภัยส่วนบุคคล">บุคลิกภาพ</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="การยกและจัดเรียงสินค้า">การจัดเรียง</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ความแม่นยำในการส่งมอบและรับคืน">ความแม่นยำ</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="การจัดการเงินและเอกสาร">จัดการเงิน</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="การบริการและมนุษย์สัมพันธ์">การบริการ</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ความระมัดระวังและสถิติความเสียหาย">ระมัดระวัง</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ความรวดเร็วและพละกำลัง">รวดเร็ว</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-300 cursor-help" title="การใช้เทคโนโลยี (แอป Fleet)">เทคโนโลยี</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="การแก้ปัญหาและการตัดสินใจ">แก้ปัญหา</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ความกระตือรือร้นและการเรียนรู้">เรียนรู้</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ภาวะผู้นำเบื้องต้น">ภาวะผู้นำ</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ทัศนคติและการรับมือกับความกดดัน">ทัศนคติ</th>
-                        <th class="py-3 px-1 font-semibold cursor-help" title="ความน่าเชื่อถือและการทำงานอิสระ">น่าเชื่อถือ</th>
+                    <!-- อนุญาตให้หัวคอลัมน์ทักษะขึ้นบรรทัดใหม่ได้ (เช่น ระเบียบ + วินัย) จะช่วยประหยัดพื้นที่แนวนอนไปได้เกือบครึ่ง! -->
+                    <tr class="text-[11px] md:text-xs text-gray-600 bg-gray-50 border-b-2 border-gray-300 leading-tight">
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">ระเบียบ<br>วินัย</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">บุคลิก<br>ภาพ</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">การจัด<br>เรียง</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">ความ<br>แม่นยำ</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">จัดการ<br>เงิน</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">การ<br>บริการ</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">ระมัด<br>ระวัง</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">รวดเร็ว</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-300">เทคโฯ<br>โลยี</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">แก้<br>ปัญหา</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">เรียนรู้</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">ภาวะ<br>ผู้นำ</th>
+                        <th class="py-2 px-1 font-semibold border-r border-gray-200">ทัศนคติ</th>
+                        <th class="py-2 px-1 font-semibold">น่าเชื่อ<br>ถือ</th>
                     </tr>
                 </thead>
                 <tbody id="skills-tbody">
@@ -174,7 +175,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="mt-8 pt-5 border-t border-gray-200 flex flex-wrap justify-center gap-6 md:gap-8 text-sm text-gray-600 font-medium">
+        <div class="mt-8 pt-5 border-t border-gray-200 flex flex-wrap justify-center gap-4 md:gap-8 text-xs md:text-sm text-gray-600 font-medium">
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-blue-500"></div> ดีเยี่ยม (5)</div>
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-teal-400"></div> ดีมาก (4)</div>
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-green-400"></div> ปานกลาง (3)</div>
@@ -293,24 +294,23 @@
                 tr.className = 'border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer';
                 tr.onclick = function() { showSingleEmployee(emp.name, this); }; 
                 
-                // 🔴 เพิ่มคลาส whitespace-nowrap ให้ชื่อไม่ตกบรรทัด
                 tr.innerHTML = `
-                    <td class="py-3 px-6 text-left text-sm text-gray-800 border-r border-gray-300 font-medium bg-gray-50/50 whitespace-nowrap">${emp.name || '-'}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.p1)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.p2)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.p3)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.p4)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.p5)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.p6)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.p7)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.p8)}</td>
-                    <td class="border-r border-gray-300 px-1">${createDot(emp.p9)}</td>
+                    <td class="py-3 px-4 text-left text-sm text-gray-800 border-r border-gray-300 font-medium bg-gray-50/50">${emp.name || '-'}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p1)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p2)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p3)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p4)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p5)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p6)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p7)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p8)}</td>
+                    <td class="border-r border-gray-300 px-1 py-2">${createDot(emp.p9)}</td>
                     
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.t1)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.t2)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.t3)}</td>
-                    <td class="border-r border-gray-200 px-1">${createDot(emp.t4)}</td>
-                    <td class="px-1">${createDot(emp.t5)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t1)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t2)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t3)}</td>
+                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t4)}</td>
+                    <td class="px-1 py-2">${createDot(emp.t5)}</td>
                 `;
                 tbody.appendChild(tr);
             });
