@@ -36,9 +36,10 @@
 </head>
 <body class="p-4 md:p-8">
 
-<div class="max-w-6xl mx-auto space-y-8">
+<div class="max-w-7xl mx-auto space-y-8">
+    
     <!-- ส่วนที่ 1: ตาราง 9-Box Matrix -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 max-w-5xl mx-auto">
         <div class="text-center mb-6">
             <h2 class="text-2xl font-bold text-gray-800">สรุปการประเมิน 9-Box Matrix</h2>
             <p class="text-gray-500 text-sm mt-1">แกนนอน: ผลงาน (Performance) | แกนตั้ง: ศักยภาพ (Potential)</p>
@@ -56,59 +57,78 @@
         </div>
     </div>
 
-    <!-- ส่วนที่ 2: Skills Matrix -->
+    <!-- ส่วนที่ 2: Skills Matrix (กว้างขึ้นเพื่อรองรับ 14 ทักษะ) -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
         <div class="flex border-b-4 border-blue-600 pb-3 mb-0">
-            <div class="w-1/4 font-bold text-gray-800 text-lg flex items-center justify-center border-r-2 border-gray-200">
-                SKILLS MATRIX
-            </div>
-            <div class="w-3/4 text-center font-bold text-white bg-blue-600 text-2xl tracking-widest flex items-center justify-center py-2">
-                SKILLS (ทักษะ)
+            <div class="w-full text-center font-bold text-gray-800 text-2xl tracking-widest py-2">
+                SKILLS MATRIX (ตารางประเมินทักษะ)
             </div>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-center border-collapse table-fixed min-w-[800px]">
+            <table class="w-full text-center border-collapse table-fixed min-w-[1200px]">
                 <thead>
-                    <tr class="text-sm text-gray-600 bg-gray-50 border-b-2 border-gray-200">
-                        <th class="py-4 px-2 font-semibold border-r border-gray-200 text-left pl-6 w-1/4">ชื่อพนักงาน</th>
-                        <th class="py-4 px-2 font-semibold border-r border-gray-100">ระเบียบวินัย</th>
-                        <th class="py-4 px-2 font-semibold border-r border-gray-100">บุคลิกภาพ</th>
-                        <th class="py-4 px-2 font-semibold border-r border-gray-100">การจัดเรียง</th>
-                        <th class="py-4 px-2 font-semibold border-r border-gray-100">การสื่อสาร</th>
-                        <th class="py-4 px-2 font-semibold border-r border-gray-100">การแก้ปัญหา</th>
-                        <th class="py-4 px-2 font-semibold">ภาวะผู้นำ</th>
+                    <!-- หัวตารางกลุ่มหลัก -->
+                    <tr class="text-sm text-gray-700 bg-gray-100 border-b border-gray-200">
+                        <th rowspan="2" class="py-3 px-2 font-bold border-r border-gray-300 text-left pl-6 min-w-[150px]">ชื่อพนักงาน</th>
+                        <th colspan="9" class="py-2 px-2 font-bold border-r border-gray-300 text-center bg-blue-50 text-blue-800">ผลงาน (Performance)</th>
+                        <th colspan="5" class="py-2 px-2 font-bold text-center bg-purple-50 text-purple-800">ศักยภาพ (Potential)</th>
+                    </tr>
+                    <!-- หัวตารางกลุ่มย่อย -->
+                    <tr class="text-xs text-gray-600 bg-gray-50 border-b-2 border-gray-300 whitespace-nowrap">
+                        <!-- ผลงาน 9 ข้อ -->
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ระเบียบวินัย</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">บุคลิกภาพ</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">การจัดเรียง</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ความแม่นยำ</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">จัดการเงิน</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">การบริการ</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ระมัดระวัง</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">รวดเร็ว</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-300">เทคโนโลยี</th>
+                        <!-- ศักยภาพ 5 ข้อ -->
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">แก้ปัญหา</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">เรียนรู้</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ภาวะผู้นำ</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ทัศนคติ</th>
+                        <th class="py-3 px-1 font-semibold">น่าเชื่อถือ</th>
                     </tr>
                 </thead>
                 <tbody id="skills-tbody">
                     <!-- ข้อมูลจะถูกดึงมาแทรกตรงนี้อัตโนมัติ -->
                     <tr>
-                        <td colspan="7" class="py-6 text-center text-gray-500">กำลังโหลดข้อมูล...</td>
+                        <td colspan="15" class="py-8 text-center text-gray-500">กำลังโหลดข้อมูล...</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="mt-8 pt-5 border-t border-gray-200 flex flex-wrap justify-center gap-6 md:gap-8 text-sm text-gray-600 font-medium">
-            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-blue-500"></div> ดีเยี่ยม (Expert)</div>
-            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-teal-400"></div> ดีมาก (High Competence)</div>
-            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-green-400"></div> ปานกลาง (Some Competence)</div>
-            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-yellow-400"></div> ต้องพัฒนา (Low Competence)</div>
-            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-red-400"></div> ยังทำไม่ได้ (No Competence)</div>
+            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-blue-500"></div> ดีเยี่ยม (5)</div>
+            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-teal-400"></div> ดีมาก (4)</div>
+            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-green-400"></div> ปานกลาง (3)</div>
+            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-yellow-400"></div> ต้องพัฒนา (2)</div>
+            <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-red-400"></div> ยังทำไม่ได้ (1)</div>
+            <div class="flex items-center gap-2 ml-4"><div class="w-4 h-4 rounded-full bg-gray-200"></div> ไม่มีข้อมูล</div>
         </div>
     </div>
 </div>
 
 <script>
-    // URL ของ Web App คุณ
+    // 🔴🔴🔴 นำ URL ของ Web App คุณมาใส่ตรงนี้ 🔴🔴🔴
     const API_URL = "https://script.google.com/macros/s/AKfycbzwWFEI6v1_eWmrqvNMMrfTSxecQS7bdBexh5ArjfdG2bkzn_GkyjPrbjMsKa5V1KaD/exec";
 
-    // ฟังก์ชันแปลงคะแนน 1-5 เป็นสี
+    // ฟังก์ชันแปลงคะแนน 1-5 เป็นสี (ถ้าไม่มีข้อมูลให้เป็นสีเทา)
     function getScoreColor(score) {
+        if (!score || score === "") return 'bg-gray-200 shadow-none';
         const s = Number(score);
-        if (s >= 5) return 'bg-blue-500';     
-        if (s >= 4) return 'bg-teal-400';     
-        if (s >= 3) return 'bg-green-400';    
-        if (s >= 2) return 'bg-yellow-400';   
-        return 'bg-red-400';                  
+        if (s >= 5) return 'bg-blue-500 shadow-sm';     
+        if (s >= 4) return 'bg-teal-400 shadow-sm';     
+        if (s >= 3) return 'bg-green-400 shadow-sm';    
+        if (s >= 2) return 'bg-yellow-400 shadow-sm';   
+        return 'bg-red-400 shadow-sm';                  
+    }
+
+    function createDot(score) {
+        return `<div class="w-4 h-4 mx-auto rounded-full ${getScoreColor(score)}"></div>`;
     }
 
     async function loadSkillsData() {
@@ -124,19 +144,28 @@
                 tr.className = 'border-b border-gray-100 hover:bg-gray-50 transition-colors';
                 
                 tr.innerHTML = `
-                    <td class="py-3 px-6 text-left text-sm text-gray-800 border-r border-gray-200 font-medium bg-gray-50/30">${emp.name || '-'}</td>
-                    <td class="border-r border-gray-100"><div class="w-5 h-5 mx-auto rounded-full shadow-sm ${getScoreColor(emp.skill1)}"></div></td>
-                    <td class="border-r border-gray-100"><div class="w-5 h-5 mx-auto rounded-full shadow-sm ${getScoreColor(emp.skill2)}"></div></td>
-                    <td class="border-r border-gray-100"><div class="w-5 h-5 mx-auto rounded-full shadow-sm ${getScoreColor(emp.skill3)}"></div></td>
-                    <td class="border-r border-gray-100"><div class="w-5 h-5 mx-auto rounded-full shadow-sm ${getScoreColor(emp.skill4)}"></div></td>
-                    <td class="border-r border-gray-100"><div class="w-5 h-5 mx-auto rounded-full shadow-sm ${getScoreColor(emp.skill5)}"></div></td>
-                    <td><div class="w-5 h-5 mx-auto rounded-full shadow-sm ${getScoreColor(emp.skill6)}"></div></td>
+                    <td class="py-3 px-6 text-left text-sm text-gray-800 border-r border-gray-300 font-medium bg-gray-50/50">${emp.name || '-'}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.p1)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.p2)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.p3)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.p4)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.p5)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.p6)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.p7)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.p8)}</td>
+                    <td class="border-r border-gray-300 px-1">${createDot(emp.p9)}</td>
+                    
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.t1)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.t2)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.t3)}</td>
+                    <td class="border-r border-gray-200 px-1">${createDot(emp.t4)}</td>
+                    <td class="px-1">${createDot(emp.t5)}</td>
                 `;
                 tbody.appendChild(tr);
             });
         } catch (error) {
             console.error("Error loading data:", error);
-            document.getElementById('skills-tbody').innerHTML = '<tr><td colspan="7" class="py-4 text-red-500 text-center">เกิดข้อผิดพลาดในการโหลดข้อมูล กรุณาตรวจสอบสิทธิ์ของ Web App</td></tr>';
+            document.getElementById('skills-tbody').innerHTML = '<tr><td colspan="15" class="py-6 text-red-500 text-center">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>';
         }
     }
 
