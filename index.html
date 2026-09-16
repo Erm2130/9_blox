@@ -70,17 +70,17 @@
             color: #fff;
             text-align: center;
             border-radius: 8px;
-            padding: 6px 12px;
+            padding: 8px 12px;
             position: absolute;
             bottom: 140%;
             left: 50%;
             transform: translateX(-50%);
             white-space: nowrap;
-            font-size: 13px;
             opacity: 0;
             transition: opacity 0.3s;
             pointer-events: none;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            z-index: 30;
         }
         .emp-dot .tooltip::after {
             content: "";
@@ -140,17 +140,14 @@
                 SKILLS MATRIX (คลิกที่ชื่อพนักงานเพื่อดูจุดบนกราฟ)
             </div>
         </div>
-        <!-- ลบ min-w-1300px ออก และให้ความกว้าง 100% -->
         <div class="overflow-x-auto overflow-y-hidden">
             <table class="w-full text-center border-collapse">
                 <thead>
                     <tr class="text-sm text-gray-700 bg-gray-100 border-b border-gray-200">
-                        <!-- กำหนดความกว้างคอลัมน์ชื่อพนักงานที่ประมาณ 22% ของตาราง จะกว้างพอดีและไม่เบียดคอลัมน์อื่น -->
                         <th rowspan="2" class="py-3 px-4 font-bold border-r border-gray-300 text-left w-[22%]">ชื่อพนักงาน</th>
                         <th colspan="9" class="py-2 px-1 font-bold border-r border-gray-300 text-center bg-blue-50 text-blue-800">ผลงาน (Performance)</th>
                         <th colspan="5" class="py-2 px-1 font-bold text-center bg-purple-50 text-purple-800">ศักยภาพ (Potential)</th>
                     </tr>
-                    <!-- อนุญาตให้หัวคอลัมน์ทักษะขึ้นบรรทัดใหม่ได้ (เช่น ระเบียบ + วินัย) จะช่วยประหยัดพื้นที่แนวนอนไปได้เกือบครึ่ง! -->
                     <tr class="text-[11px] md:text-xs text-gray-600 bg-gray-50 border-b-2 border-gray-300 leading-tight">
                         <th class="py-2 px-1 font-semibold border-r border-gray-200">ระเบียบ<br>วินัย</th>
                         <th class="py-2 px-1 font-semibold border-r border-gray-200">บุคลิก<br>ภาพ</th>
@@ -192,6 +189,26 @@
     let allEmployeeData = []; 
     let isShowingAll = false; 
 
+    // ฟังก์ชันคำนวณหาสถานะ 9-Box
+    function getNineBoxName(perf, pot) {
+        let x = perf < 2.5 ? 1 : (perf <= 3.5 ? 2 : 3);
+        let y = pot < 2.5 ? 1 : (pot <= 3.5 ? 2 : 3);
+        
+        if (x===1 && y===3) return "เพชรในตม (Rough Diamonds)";
+        if (x===2 && y===3) return "ดาวรุ่ง (Rising Stars)";
+        if (x===3 && y===3) return "ดาวเด่น (Stars)";
+        
+        if (x===1 && y===2) return "ต้องพัฒนา (Inconsistent)";
+        if (x===2 && y===2) return "กำลังสำคัญ (Core Players)";
+        if (x===3 && y===2) return "ผู้เชี่ยวชาญ (Strong Contrib.)";
+        
+        if (x===1 && y===1) return "เฝ้าระวัง (Underperformers)";
+        if (x===2 && y===1) return "มาตรฐาน (Effective)";
+        if (x===3 && y===1) return "เสาหลัก (Workhorses)";
+        
+        return "รอประเมิน";
+    }
+
     function getScoreColor(score) {
         if (!score || score === "") return 'bg-gray-200 shadow-none';
         const s = Number(score);
@@ -221,9 +238,16 @@
             dot.style.left = `${leftPos}%`;
             dot.style.bottom = `${bottomPos}%`;
 
+            // ดึงชื่อสถานะมาแสดงใน Tooltip
+            const statusName = getNineBoxName(emp.avgPerf, emp.avgPot);
+
             const tooltip = document.createElement('span');
             tooltip.className = 'tooltip';
-            tooltip.innerHTML = `<span class="text-base font-bold text-blue-200">${emp.name}</span><br/>ผลงาน: ${emp.avgPerf.toFixed(2)} | ศักยภาพ: ${emp.avgPot.toFixed(2)}`;
+            tooltip.innerHTML = `
+                <div class="text-base font-bold text-blue-200 mb-1">${emp.name}</div>
+                <div class="text-yellow-300 text-xs mb-1 font-semibold">${statusName}</div>
+                <div class="text-[13px] text-gray-200">ผลงาน: ${emp.avgPerf.toFixed(2)} | ศักยภาพ: ${emp.avgPot.toFixed(2)}</div>
+            `;
             
             dot.appendChild(tooltip);
             container.appendChild(dot);
