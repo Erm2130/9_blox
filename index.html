@@ -18,10 +18,10 @@
             border: 2px solid #cbd5e1;
             border-radius: 12px;
             aspect-ratio: 21 / 9; 
-            overflow: hidden;
+            position: relative; /* สำคัญมาก: เพื่อให้พล็อตจุดได้ */
         }
         .box { padding: 16px; display: flex; align-items: center; justify-content: center; text-align: center; }
-        .box span { font-size: 14px; font-weight: 500; line-height: 1.4; }
+        .box span { font-size: 14px; font-weight: 500; line-height: 1.4; opacity: 0.8; }
 
         .b-tl { background: #F3E8FF; color: #6B21A8; } 
         .b-tm { background: #D1FAE5; color: #065F46; } 
@@ -32,6 +32,65 @@
         .b-bl { background: #FEE2E2; color: #991B1B; } 
         .b-bm { background: #F3F4F6; color: #4B5563; } 
         .b-br { background: #E2E8F0; color: #334155; } 
+
+        /* CSS สำหรับจุดพนักงาน */
+        .emp-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #2563eb; /* สีน้ำเงิน */
+            border: 2px solid white;
+            border-radius: 50%;
+            transform: translate(-50%, 50%); /* จัดให้อยู่ตรงกลางพิกัด */
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .emp-dot:hover {
+            transform: translate(-50%, 50%) scale(1.4);
+            z-index: 20;
+            background-color: #1d4ed8;
+        }
+
+        /* CSS สำหรับป้ายชื่อเวลาเอาเมาส์ชี้ (Tooltip) */
+        .emp-dot .tooltip {
+            visibility: hidden;
+            background-color: #1e293b;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 6px 12px;
+            position: absolute;
+            bottom: 140%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 13px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .emp-dot .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #1e293b transparent transparent transparent;
+        }
+        .emp-dot:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* ไฮไลต์แถวที่ถูกคลิก */
+        .row-active {
+            background-color: #dbeafe !important; /* สีฟ้าน้ำทะเลอ่อน */
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -43,8 +102,18 @@
         <div class="text-center mb-6">
             <h2 class="text-2xl font-bold text-gray-800">สรุปการประเมิน 9-Box Matrix</h2>
             <p class="text-gray-500 text-sm mt-1">แกนนอน: ผลงาน (Performance) | แกนตั้ง: ศักยภาพ (Potential)</p>
+            
+            <!-- ปุ่มแสดงจุดทั้งหมด -->
+            <button onclick="showAllDots()" class="mt-4 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full shadow-md transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center justify-center gap-2 mx-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                </svg>
+                แสดงพนักงานทั้งหมด
+            </button>
         </div>
-        <div class="grid-9box mx-auto max-w-4xl">
+
+        <div class="grid-9box mx-auto max-w-4xl" id="matrix-container">
+            <!-- กล่อง 9 ช่อง -->
             <div class="box b-tl"><span>เพชรในตม<br>(Rough Diamonds)</span></div>
             <div class="box b-tm"><span>ดาวรุ่ง<br>(Rising Stars)</span></div>
             <div class="box b-tr"><span>ดาวเด่น<br>(Stars)</span></div>
@@ -54,47 +123,45 @@
             <div class="box b-bl"><span>เฝ้าระวัง<br>(Underperformers)</span></div>
             <div class="box b-bm"><span>มาตรฐาน<br>(Effective)</span></div>
             <div class="box b-br"><span>เสาหลัก<br>(Workhorses)</span></div>
+            <!-- จุดพนักงานจะถูกเพิ่มเข้ามาตรงนี้อัตโนมัติด้วย JavaScript -->
         </div>
     </div>
 
-    <!-- ส่วนที่ 2: Skills Matrix (กว้างขึ้นเพื่อรองรับ 14 ทักษะ) -->
+    <!-- ส่วนที่ 2: Skills Matrix -->
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8">
         <div class="flex border-b-4 border-blue-600 pb-3 mb-0">
             <div class="w-full text-center font-bold text-gray-800 text-2xl tracking-widest py-2">
-                SKILLS MATRIX (ตารางประเมินทักษะ)
+                SKILLS MATRIX (คลิกที่ชื่อพนักงานเพื่อดูจุดบนกราฟ)
             </div>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-center border-collapse table-fixed min-w-[1200px]">
                 <thead>
-                    <!-- หัวตารางกลุ่มหลัก -->
                     <tr class="text-sm text-gray-700 bg-gray-100 border-b border-gray-200">
                         <th rowspan="2" class="py-3 px-2 font-bold border-r border-gray-300 text-left pl-6 min-w-[150px]">ชื่อพนักงาน</th>
                         <th colspan="9" class="py-2 px-2 font-bold border-r border-gray-300 text-center bg-blue-50 text-blue-800">ผลงาน (Performance)</th>
                         <th colspan="5" class="py-2 px-2 font-bold text-center bg-purple-50 text-purple-800">ศักยภาพ (Potential)</th>
                     </tr>
-                    <!-- หัวตารางกลุ่มย่อย -->
                     <tr class="text-xs text-gray-600 bg-gray-50 border-b-2 border-gray-300 whitespace-nowrap">
                         <!-- ผลงาน 9 ข้อ -->
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ระเบียบวินัย</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">บุคลิกภาพ</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">การจัดเรียง</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ความแม่นยำ</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">จัดการเงิน</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">การบริการ</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ระมัดระวัง</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">รวดเร็ว</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-300">เทคโนโลยี</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ระเบียบวินัยและความตรงต่อเวลา">ระเบียบวินัย</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="บุคลิกภาพและความปลอดภัยส่วนบุคคล">บุคลิกภาพ</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="การยกและจัดเรียงสินค้า">การจัดเรียง</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ความแม่นยำในการส่งมอบและรับคืน">ความแม่นยำ</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="การจัดการเงินและเอกสาร">จัดการเงิน</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="การบริการและมนุษย์สัมพันธ์">การบริการ</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ความระมัดระวังและสถิติความเสียหาย">ระมัดระวัง</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ความรวดเร็วและพละกำลัง">รวดเร็ว</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-300 cursor-help" title="การใช้เทคโนโลยี (แอป Fleet)">เทคโนโลยี</th>
                         <!-- ศักยภาพ 5 ข้อ -->
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">แก้ปัญหา</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">เรียนรู้</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ภาวะผู้นำ</th>
-                        <th class="py-3 px-1 font-semibold border-r border-gray-200">ทัศนคติ</th>
-                        <th class="py-3 px-1 font-semibold">น่าเชื่อถือ</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="การแก้ปัญหาและการตัดสินใจ">แก้ปัญหา</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ความกระตือรือร้นและการเรียนรู้">เรียนรู้</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ภาวะผู้นำเบื้องต้น">ภาวะผู้นำ</th>
+                        <th class="py-3 px-1 font-semibold border-r border-gray-200 cursor-help" title="ทัศนคติและการรับมือกับความกดดัน">ทัศนคติ</th>
+                        <th class="py-3 px-1 font-semibold cursor-help" title="ความน่าเชื่อถือและการทำงานอิสระ">น่าเชื่อถือ</th>
                     </tr>
                 </thead>
                 <tbody id="skills-tbody">
-                    <!-- ข้อมูลจะถูกดึงมาแทรกตรงนี้อัตโนมัติ -->
                     <tr>
                         <td colspan="15" class="py-8 text-center text-gray-500">กำลังโหลดข้อมูล...</td>
                     </tr>
@@ -107,16 +174,16 @@
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-green-400"></div> ปานกลาง (3)</div>
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-yellow-400"></div> ต้องพัฒนา (2)</div>
             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-red-400"></div> ยังทำไม่ได้ (1)</div>
-            <div class="flex items-center gap-2 ml-4"><div class="w-4 h-4 rounded-full bg-gray-200"></div> ไม่มีข้อมูล</div>
         </div>
     </div>
 </div>
 
 <script>
-    // 🔴🔴🔴 นำ URL ของ Web App คุณมาใส่ตรงนี้ 🔴🔴🔴
-    const API_URL = "https://script.google.com/macros/s/AKfycbzwWFEI6v1_eWmrqvNMMrfTSxecQS7bdBexh5ArjfdG2bkzn_GkyjPrbjMsKa5V1KaD/exec";
+    // 🔴🔴🔴 นำ URL ของ Web App ของคุณมาใส่ตรงนี้ 🔴🔴🔴
+    const API_URL = "ใส่_URL_ของคุณที่นี่";
+    
+    let allEmployeeData = []; // ตัวแปรเก็บข้อมูลพนักงานทั้งหมดไว้พล็อตจุด
 
-    // ฟังก์ชันแปลงคะแนน 1-5 เป็นสี (ถ้าไม่มีข้อมูลให้เป็นสีเทา)
     function getScoreColor(score) {
         if (!score || score === "") return 'bg-gray-200 shadow-none';
         const s = Number(score);
@@ -128,7 +195,58 @@
     }
 
     function createDot(score) {
-        return `<div class="w-4 h-4 mx-auto rounded-full ${getScoreColor(score)}"></div>`;
+        return `<div class="w-4 h-4 mx-auto rounded-full ${getScoreColor(score)} transition-transform hover:scale-125"></div>`;
+    }
+
+    // ฟังก์ชันวาดจุดบน 9-Box
+    function drawDots(empList) {
+        // ลบจุดเก่าออกก่อน
+        document.querySelectorAll('.emp-dot').forEach(el => el.remove());
+        const container = document.getElementById('matrix-container');
+
+        empList.forEach(emp => {
+            // ข้ามคนที่มีคะแนนเป็น 0 หรือไม่มีข้อมูล
+            if (emp.avgPerf === 0 || emp.avgPot === 0) return; 
+
+            // คำนวณพิกัด (แปลงสเกล 1-5 เป็น % โดยเผื่อขอบไว้ 5% - 95% จะได้ไม่ล้นกล่อง)
+            let leftPos = 5 + ((emp.avgPerf - 1) / 4) * 90;
+            let bottomPos = 5 + ((emp.avgPot - 1) / 4) * 90;
+
+            const dot = document.createElement('div');
+            dot.className = 'emp-dot';
+            dot.style.left = `${leftPos}%`;
+            dot.style.bottom = `${bottomPos}%`;
+
+            // สร้าง Tooltip ป้ายชื่อ
+            const tooltip = document.createElement('span');
+            tooltip.className = 'tooltip';
+            tooltip.innerHTML = `<span class="text-base font-bold text-blue-200">${emp.name}</span><br/>ผลงาน: ${emp.avgPerf.toFixed(2)} | ศักยภาพ: ${emp.avgPot.toFixed(2)}`;
+            
+            dot.appendChild(tooltip);
+            container.appendChild(dot);
+        });
+    }
+
+    // ฟังก์ชันเมื่อคลิกเลือกแค่คนเดียว
+    function showSingleEmployee(name, trElement) {
+        // ไฮไลต์สีแถวที่ถูกคลิก
+        document.querySelectorAll('#skills-tbody tr').forEach(tr => tr.classList.remove('row-active'));
+        if (trElement) trElement.classList.add('row-active');
+        
+        // กรองข้อมูลและวาดจุดแค่คนเดียว
+        const selectedEmp = allEmployeeData.filter(e => e.name === name);
+        drawDots(selectedEmp);
+        
+        // เลื่อนหน้าจอขึ้นไปดูกราฟแบบสมูท
+        document.querySelector('.grid-9box').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ฟังก์ชันปุ่ม "แสดงพนักงานทั้งหมด"
+    function showAllDots() {
+        // ลบแถบไฮไลต์ในตารางออก
+        document.querySelectorAll('#skills-tbody tr').forEach(tr => tr.classList.remove('row-active'));
+        // วาดจุดทุกคน
+        drawDots(allEmployeeData);
     }
 
     async function loadSkillsData() {
@@ -138,10 +256,22 @@
             
             const tbody = document.getElementById('skills-tbody');
             tbody.innerHTML = ''; 
+            allEmployeeData = [];
 
             employees.forEach(emp => {
+                // คำนวณหาค่าเฉลี่ย "ผลงาน" (X) และ "ศักยภาพ" (Y)
+                let pScores = [emp.p1, emp.p2, emp.p3, emp.p4, emp.p5, emp.p6, emp.p7, emp.p8, emp.p9].filter(v => v !== "" && !isNaN(v)).map(Number);
+                let tScores = [emp.t1, emp.t2, emp.t3, emp.t4, emp.t5].filter(v => v !== "" && !isNaN(v)).map(Number);
+                
+                emp.avgPerf = pScores.length > 0 ? pScores.reduce((a,b)=>a+b,0) / pScores.length : 0;
+                emp.avgPot = tScores.length > 0 ? tScores.reduce((a,b)=>a+b,0) / tScores.length : 0;
+                
+                allEmployeeData.push(emp); // เก็บไว้ใช้พล็อตจุด
+
+                // สร้างแถวตาราง พร้อมใส่คำสั่ง onclick
                 const tr = document.createElement('tr');
-                tr.className = 'border-b border-gray-100 hover:bg-gray-50 transition-colors';
+                tr.className = 'border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer';
+                tr.onclick = function() { showSingleEmployee(emp.name, this); }; // <-- ฟังก์ชันคลิก
                 
                 tr.innerHTML = `
                     <td class="py-3 px-6 text-left text-sm text-gray-800 border-r border-gray-300 font-medium bg-gray-50/50">${emp.name || '-'}</td>
@@ -163,9 +293,13 @@
                 `;
                 tbody.appendChild(tr);
             });
+
+            // เมื่อโหลดตารางเสร็จ ให้วาดจุดทั้งหมดลง 9-Box ทันที
+            showAllDots();
+
         } catch (error) {
             console.error("Error loading data:", error);
-            document.getElementById('skills-tbody').innerHTML = '<tr><td colspan="15" class="py-6 text-red-500 text-center">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>';
+            document.getElementById('skills-tbody').innerHTML = '<tr><td colspan="15" class="py-8 text-red-500 text-center text-lg">เกิดข้อผิดพลาดในการดึงข้อมูล โปรดตรวจสอบ API URL หรือสิทธิ์เข้าถึงของ Web App</td></tr>';
         }
     }
 
