@@ -163,26 +163,23 @@
             <table class="w-full text-center border-collapse">
                 <thead>
                     <tr class="text-xs md:text-sm text-gray-700 bg-gray-100 border-b border-gray-200">
-                        <!-- ล็อกคอลัมน์ชื่อพนักงาน (Sticky) -->
                         <th rowspan="2" class="py-3 px-3 md:px-4 font-bold border-r border-gray-300 text-left min-w-[120px] md:min-w-[200px] md:w-[22%] sticky left-0 bg-gray-100 z-20 sticky-shadow">ชื่อพนักงาน</th>
-                        <th colspan="9" class="py-2 px-1 font-bold border-r border-gray-300 text-center bg-blue-50 text-blue-800 whitespace-nowrap">ผลงาน (Performance)</th>
-                        <th colspan="5" class="py-2 px-1 font-bold text-center bg-purple-50 text-purple-800 whitespace-nowrap">ศักยภาพ (Potential)</th>
+                        <!-- เปลี่ยน colspan เป็น 5 -->
+                        <th colspan="5" class="py-2 px-1 font-bold border-r border-gray-300 text-center bg-blue-50 text-blue-800 whitespace-nowrap">ผลงาน (Performance)</th>
+                        <!-- เปลี่ยน colspan เป็น 3 -->
+                        <th colspan="3" class="py-2 px-1 font-bold text-center bg-purple-50 text-purple-800 whitespace-nowrap">ศักยภาพ (Potential)</th>
                     </tr>
                     <tr class="text-[10px] md:text-xs text-gray-600 bg-gray-50 border-b-2 border-gray-300 leading-tight">
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">ระเบียบ<br>วินัย</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">บุคลิก<br>ภาพ</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">การจัด<br>เรียง</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">ความ<br>แม่นยำ</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">จัดการ<br>เงิน</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">การ<br>บริการ</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">ระมัด<br>ระวัง</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">รวดเร็ว</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-300 min-w-[50px]">เทคโนฯ</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">แก้<br>ปัญหา</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">เรียนรู้</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">ภาวะ<br>ผู้นำ</th>
-                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">ทัศนคติ</th>
-                        <th class="py-2 px-2 font-semibold min-w-[50px]">น่าเชื่อ<br>ถือ</th>
+                        <!-- หัวข้อผลงาน 5 ข้อ -->
+                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">ขับขี่/<br>ดูแลรถ</th>
+                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">เส้นทาง/<br>เวลา</th>
+                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">ตรวจ<br>สินค้า</th>
+                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">จัดการ<br>เอกสาร/เงิน</th>
+                        <th class="py-2 px-2 font-semibold border-r border-gray-300 min-w-[50px]">คุมทีม<br>บริการ</th>
+                        <!-- หัวข้อศักยภาพ 3 ข้อ -->
+                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">แก้ปัญหา/<br>รายงาน</th>
+                        <th class="py-2 px-2 font-semibold border-r border-gray-200 min-w-[50px]">สื่อสาร/<br>ทีมเวิร์ค</th>
+                        <th class="py-2 px-2 font-semibold min-w-[50px]">รับแรง<br>กดดัน</th>
                     </tr>
                 </thead>
                 <tbody id="skills-tbody">
@@ -342,8 +339,9 @@
             allEmployeeData = [];
 
             employees.forEach(emp => {
-                let pScores = [emp.p1, emp.p2, emp.p3, emp.p4, emp.p5, emp.p6, emp.p7, emp.p8, emp.p9].filter(v => v !== "" && !isNaN(v)).map(Number);
-                let tScores = [emp.t1, emp.t2, emp.t3, emp.t4, emp.t5].filter(v => v !== "" && !isNaN(v)).map(Number);
+                // ปรับอาร์เรย์ผลงานเหลือ p1-p5 และ ศักยภาพเหลือ t1-t3
+                let pScores = [emp.p1, emp.p2, emp.p3, emp.p4, emp.p5].filter(v => v !== "" && !isNaN(v)).map(Number);
+                let tScores = [emp.t1, emp.t2, emp.t3].filter(v => v !== "" && !isNaN(v)).map(Number);
                 
                 emp.avgPerf = pScores.length > 0 ? pScores.reduce((a,b)=>a+b,0) / pScores.length : 0;
                 emp.avgPot = tScores.length > 0 ? tScores.reduce((a,b)=>a+b,0) / tScores.length : 0;
@@ -354,24 +352,18 @@
                 tr.className = 'border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer';
                 tr.onclick = function() { showSingleEmployee(emp.name, this); }; 
                 
-                // สังเกตที่คอลัมน์แรก มีการใช้ sticky และ z-10 เพื่อล็อกให้อยู่ด้านซ้าย
+                // ลดจำนวน <td> ให้ตรงกับ 8 หัวข้อใหม่
                 tr.innerHTML = `
                     <td class="py-2 md:py-3 px-3 md:px-4 text-left text-xs md:text-sm text-gray-800 border-r border-gray-300 font-medium bg-white sticky left-0 z-10 sticky-shadow whitespace-nowrap">${emp.name || '-'}</td>
                     <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p1)}</td>
                     <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p2)}</td>
                     <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p3)}</td>
                     <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p4)}</td>
-                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p5)}</td>
-                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p6)}</td>
-                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p7)}</td>
-                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p8)}</td>
-                    <td class="border-r border-gray-300 px-1 py-2">${createDot(emp.p9)}</td>
+                    <td class="border-r border-gray-300 px-1 py-2">${createDot(emp.p5)}</td>
                     
                     <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t1)}</td>
                     <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t2)}</td>
-                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t3)}</td>
-                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t4)}</td>
-                    <td class="px-1 py-2">${createDot(emp.t5)}</td>
+                    <td class="px-1 py-2">${createDot(emp.t3)}</td>
                 `;
                 tbody.appendChild(tr);
             });
