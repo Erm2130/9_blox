@@ -21,28 +21,17 @@
             aspect-ratio: 4 / 3; 
             position: relative; 
         }
-        @media (min-width: 768px) {
-            .grid-9box { aspect-ratio: 21 / 9; } 
-        }
+        @media (min-width: 768px) { .grid-9box { aspect-ratio: 21 / 9; } }
 
         .box { padding: 8px; display: flex; align-items: center; justify-content: center; text-align: center; }
         @media (min-width: 768px) { .box { padding: 16px; } }
 
-        /* ตัวอักษรใน 9-Box (แบบเดิมตามรูป) */
         .box span { 
-            font-size: 13px; 
-            font-weight: 500; 
-            line-height: 1.2; 
-            opacity: 0.9;
-            position: relative;
-            z-index: 5; 
-            pointer-events: none; 
+            font-size: 13px; font-weight: 500; line-height: 1.2; opacity: 0.9;
+            position: relative; z-index: 5; pointer-events: none; 
         }
-        @media (min-width: 768px) {
-            .box span { font-size: 16px; line-height: 1.4; } 
-        }
+        @media (min-width: 768px) { .box span { font-size: 16px; line-height: 1.4; } }
 
-        /* สีพาสเทลแบบดั้งเดิม */
         .b-tl { background: #F3E8FF; color: #6B21A8; } 
         .b-tm { background: #D1FAE5; color: #065F46; } 
         .b-tr { background: #DCFCE7; color: #166534; } 
@@ -54,81 +43,37 @@
         .b-br { background: #E2E8F0; color: #334155; } 
 
         .emp-dot {
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            background-color: #4f46e5; 
-            border: 2px solid white;
-            border-radius: 50%;
-            transform: translate(-50%, 50%); 
-            cursor: pointer;
-            z-index: 2; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0.9;
+            position: absolute; width: 18px; height: 18px;
+            background-color: #4f46e5; border: 2px solid white; border-radius: 50%;
+            transform: translate(-50%, 50%); cursor: pointer; z-index: 2; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0.9;
         }
-        @media (min-width: 768px) {
-            .emp-dot { width: 22px; height: 22px; }
-        }
-        .emp-dot:hover {
-            transform: translate(-50%, 50%) scale(1.4);
-            z-index: 20; 
-            background-color: #3730a3;
-            opacity: 1;
-        }
+        @media (min-width: 768px) { .emp-dot { width: 22px; height: 22px; } }
+        .emp-dot:hover { transform: translate(-50%, 50%) scale(1.4); z-index: 20; background-color: #3730a3; opacity: 1; }
 
         .emp-dot .tooltip {
-            visibility: hidden;
-            background-color: #1e293b;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 8px 12px;
-            position: absolute;
-            bottom: 140%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            z-index: 30;
+            visibility: hidden; background-color: #1e293b; color: #fff; text-align: center;
+            border-radius: 8px; padding: 8px 12px; position: absolute; bottom: 140%; left: 50%;
+            transform: translateX(-50%); white-space: nowrap; opacity: 0; transition: opacity 0.3s;
+            pointer-events: none; box-shadow: 0 4px 6px rgba(0,0,0,0.2); z-index: 30;
         }
         .emp-dot .tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #1e293b transparent transparent transparent;
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px;
+            border-width: 5px; border-style: solid; border-color: #1e293b transparent transparent transparent;
         }
-        .emp-dot:hover .tooltip, .emp-dot:active .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .row-active td {
-            background-color: #dbeafe !important; 
-        }
-
-        .sticky-shadow {
-            box-shadow: 4px 0 6px -2px rgba(0,0,0,0.05);
-        }
+        .emp-dot:hover .tooltip, .emp-dot:active .tooltip { visibility: visible; opacity: 1; }
+        .row-active td { background-color: #dbeafe !important; }
+        .sticky-shadow { box-shadow: 4px 0 6px -2px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body class="p-2 md:p-8">
 
 <div class="max-w-7xl mx-auto space-y-6 md:space-y-8">
     
-    <!-- ส่วนที่ 1: ตาราง 9-Box Matrix (ดีไซน์เดิม) -->
     <div class="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 p-4 md:p-8 max-w-5xl mx-auto">
         <div class="text-center mb-4 md:mb-6">
             <h2 class="text-xl md:text-2xl font-bold text-gray-800">สรุปการประเมิน 9-Box</h2>
             <p class="text-gray-500 text-xs md:text-sm mt-1">แกนนอน: ผลงาน | แกนตั้ง: ศักยภาพ</p>
-            
             <button id="toggleAllBtn" onclick="toggleAllDots()" class="mt-4 px-4 py-2 md:px-5 md:py-2.5 bg-gray-600 hover:bg-gray-700 text-white text-xs md:text-sm font-medium rounded-full shadow-md transition-colors active:scale-95 flex items-center justify-center gap-2 mx-auto">
                 <svg id="toggleIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clip-rule="evenodd" /><path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
@@ -149,24 +94,24 @@
         </div>
     </div>
 
-    <!-- ส่วนที่ 2: Skills Matrix แบบแบ่งตามตำแหน่ง -->
     <div class="bg-white rounded-xl md:rounded-2xl shadow-sm border border-gray-200 p-2 md:p-8">
         <div class="flex flex-col md:flex-row justify-between items-center border-b-2 md:border-b-4 border-blue-600 pb-3 mb-4 gap-4">
             <div class="text-center md:text-left font-bold text-gray-800 text-lg md:text-2xl tracking-widest py-1 md:py-2">
                 SKILLS MATRIX
                 <div class="text-xs text-gray-500 font-normal tracking-normal mt-1">(แตะที่ชื่อเพื่อดูจุดบนกราฟ)</div>
             </div>
-            <!-- Dropdown เลือกตำแหน่ง -->
             <div>
+                <!-- อัปเดตเพิ่มตัวเลือกอีก 2 ตำแหน่ง -->
                 <select id="roleFilter" onchange="renderTable()" class="px-4 py-2 border border-gray-300 rounded-lg text-sm md:text-base focus:outline-none focus:border-blue-500 shadow-sm text-gray-700 font-medium cursor-pointer bg-white hover:bg-gray-50">
                     <option value="all">แสดงทุกตำแหน่ง (ดูรวม)</option>
                     <option value="พนักงานขับรถ">เฉพาะ พนักงานขับรถ</option>
                     <option value="พนักงานบริการ">เฉพาะ พนักงานบริการ</option>
+                    <option value="เจ้าหน้าที่คลังสินค้า">เฉพาะ เจ้าหน้าที่คลังสินค้า</option>
+                    <option value="พนักงานขับรถโฟล์คลิฟท์">เฉพาะ พนักงานขับรถโฟล์คลิฟท์</option>
                 </select>
             </div>
         </div>
         
-        <!-- พื้นที่แสดงตารางไดนามิก -->
         <div id="table-container" class="space-y-8">
             <div class="py-8 text-center text-gray-500">กำลังโหลดข้อมูล...</div>
         </div>
@@ -182,21 +127,28 @@
 </div>
 
 <script>
-    // 🔴 อย่าลืมนำ URL API ล่าสุดของคุณมาใส่ตรงนี้ 🔴
     const API_URL = "https://script.google.com/macros/s/AKfycbzwWFEI6v1_eWmrqvNMMrfTSxecQS7bdBexh5ArjfdG2bkzn_GkyjPrbjMsKa5V1KaD/exec";
     
     let allEmployeeData = []; 
     let isShowingAll = true; 
 
-    // กำหนดหัวข้อคอลัมน์ของแต่ละตำแหน่งให้ตรงกับฟอร์ม
+    // อัปเดตหัวข้อให้ครอบคลุม 4 ตำแหน่ง (คลังกับโฟล์คลิฟท์มีแค่ 4+3 ข้อ)
     const headersConfig = {
         'พนักงานขับรถ': {
-            perf: ['ขับขี่/รถ', 'เส้นทาง', 'ดูแลเบื้องต้น', 'บริหารเวลา', 'ความพร้อม'], 
+            perf: ['ขับขี่/รถ', 'เวลา/เส้นทาง', 'คุมสินค้า', 'เอกสาร/เงิน', 'คุมทีมงาน'], 
             pot: ['แก้ปัญหา', 'สื่อสาร/ทีม', 'รับแรงกดดัน']
         },
         'พนักงานบริการ': {
             perf: ['จัดการสินค้า', 'ระเบียบวินัย', 'รวดเร็ว', 'บริการลูกค้า', 'ทำงานเป็นทีม'],
             pot: ['แก้ปัญหาเชิงรุก', 'เรียนรู้งานใหม่', 'เป็นพี่เลี้ยง']
+        },
+        'เจ้าหน้าที่คลังสินค้า': {
+            perf: ['แม่นยำสต็อก', 'จัดเก็บ/FIFO', 'ข้อมูล/เอกสาร', '5ส./ลดสูญเสีย'],
+            pot: ['แก้ปัญหา', 'ประสานงาน', 'เรียนรู้/ยืดหยุ่น']
+        },
+        'พนักงานขับรถโฟล์คลิฟท์': {
+            perf: ['ขับขี่ปลอดภัย', 'ดูแลสภาพรถ', 'จัดเรียงรวดเร็ว', 'ลดสูญเสีย'],
+            pot: ['สื่อสารหน้าคลัง', 'แก้ปัญหาเฉพาะหน้า', 'ยืดหยุ่น/ช่วยงาน']
         }
     };
 
@@ -269,13 +221,13 @@
         });
     }
 
-    // ฟังก์ชันสร้างตารางตามตำแหน่งที่เลือก
     function renderTable() {
         const filter = document.getElementById('roleFilter').value;
         const container = document.getElementById('table-container');
         container.innerHTML = ''; 
 
-        const rolesToRender = filter === 'all' ? ['พนักงานขับรถ', 'พนักงานบริการ'] : [filter];
+        // ดึงทั้ง 4 ตำแหน่งมาแสดงเมื่อเลือก all
+        const rolesToRender = filter === 'all' ? ['พนักงานขับรถ', 'พนักงานบริการ', 'เจ้าหน้าที่คลังสินค้า', 'พนักงานขับรถโฟล์คลิฟท์'] : [filter];
 
         rolesToRender.forEach(role => {
             const roleData = allEmployeeData.filter(e => e.role === role);
@@ -294,8 +246,10 @@
                         <thead>
                             <tr class="text-xs md:text-sm text-gray-700 bg-gray-100 border-b border-gray-300">
                                 <th rowspan="2" class="py-2 px-3 font-bold border-r border-gray-300 text-left min-w-[120px] md:min-w-[200px] sticky left-0 bg-gray-100 z-20 sticky-shadow">ชื่อพนักงาน</th>
-                                <th colspan="5" class="py-2 px-1 font-bold border-r border-gray-300 bg-blue-50 text-blue-800">ผลงาน (Performance)</th>
-                                <th colspan="3" class="py-2 px-1 font-bold bg-purple-50 text-purple-800">ศักยภาพ (Potential)</th>
+                                <!-- colspan อัตโนมัติตามจำนวนข้อ Performance -->
+                                <th colspan="${hPerf.length}" class="py-2 px-1 font-bold border-r border-gray-300 bg-blue-50 text-blue-800">ผลงาน (Performance)</th>
+                                <!-- colspan อัตโนมัติตามจำนวนข้อ Potential -->
+                                <th colspan="${hPot.length}" class="py-2 px-1 font-bold bg-purple-50 text-purple-800">ศักยภาพ (Potential)</th>
                             </tr>
                             <tr class="text-[10px] md:text-xs text-gray-600 bg-gray-50 border-b-2 border-gray-300">
                                 ${hPerf.map(h => `<th class="py-2 px-1 font-semibold border-r border-gray-200 min-w-[50px] leading-tight">${h}</th>`).join('')}
@@ -306,14 +260,9 @@
                             ${roleData.map(emp => `
                                 <tr class="border-b border-gray-100 hover:bg-blue-50 transition-colors cursor-pointer" onclick="showSingleEmployee('${emp.name}', this)">
                                     <td class="py-2 md:py-3 px-3 text-left text-xs md:text-sm font-medium text-gray-800 bg-white sticky left-0 z-10 sticky-shadow whitespace-nowrap">${emp.name}</td>
-                                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p1)}</td>
-                                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p2)}</td>
-                                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p3)}</td>
-                                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.p4)}</td>
-                                    <td class="border-r border-gray-300 px-1 py-2">${createDot(emp.p5)}</td>
-                                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t1)}</td>
-                                    <td class="border-r border-gray-200 px-1 py-2">${createDot(emp.t2)}</td>
-                                    <td class="px-1 py-2">${createDot(emp.t3)}</td>
+                                    <!-- สร้างจุดคะแนนแบบไดนามิกตามจำนวนข้อที่ตั้งไว้ใน headersConfig -->
+                                    ${hPerf.map((_, i) => `<td class="border-r border-gray-200 px-1 py-2">${createDot(emp['p'+(i+1)])}</td>`).join('')}
+                                    ${hPot.map((_, i) => `<td class="${i === hPot.length - 1 ? '' : 'border-r border-gray-200'} px-1 py-2">${createDot(emp['t'+(i+1)])}</td>`).join('')}
                                 </tr>
                             `).join('')}
                         </tbody>
@@ -341,7 +290,6 @@
         } else {
             document.querySelectorAll('#table-container tr').forEach(tr => tr.classList.remove('row-active'));
             
-            // กรองจุดบนกราฟตามตัวเลือก Dropdown
             const filter = document.getElementById('roleFilter').value;
             const dataToDraw = filter === 'all' ? allEmployeeData : allEmployeeData.filter(e => e.role === filter);
             drawDots(dataToDraw);
